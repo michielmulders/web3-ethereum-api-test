@@ -8,7 +8,10 @@ router.get('/', function(req, res) {
    web3service.getAccounts().then(result => {
     res.send(result)
   })
-  .catch(err => console.log(err))
+  .catch(err => {
+    console.log(err)
+    res.status(500).send(err)
+   })
 });
  
 module.exports = router;
