@@ -1,8 +1,26 @@
-import http from 'http';
+const express = require('express');
 
-http.createServer((req, res) => {
-  res.writeHead(200, {'Content-Type': 'text/plain'});
-  res.end('Hello World\n');
-}).listen(1337, '127.0.0.1');
+const app = express();
+const bodyParser = require('body-parser');
+const web3service =require('./services/web3.service.js');
+const Web3 = require('web3');
+const accounts = require('./routes/accounts');
 
-console.log('Server running at http://127.0.0.1:1337/');
+const port = process.env.port || 3100;
+
+app.use(bodyParser.json());
+
+
+app.use('/api/accounts',accounts);
+
+app.get('/', (req, res) =>{
+ res.send('Service is running');
+})
+
+app.listen(port, () => {
+ console.log('started on port: ' + port );
+ web3service.init();
+});
+
+// Start mist: mist --rpc ~/eth/priv/data/geth.ipc
+// Don't forget to start ethereum with script (./START..)
