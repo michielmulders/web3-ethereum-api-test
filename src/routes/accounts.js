@@ -8,7 +8,8 @@ router.get('/', function(req, res) {
       res.send(result)
   }).catch(err => {
       console.log(err)
-  })
+      res.status(500).send(err)
+  }) 
 })
- 
+
 export default router
