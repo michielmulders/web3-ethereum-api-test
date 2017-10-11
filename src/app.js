@@ -1,26 +1,20 @@
-const express = require('express');
+import bodyParser from 'body-parser'
+import { initWebService } from './services/web3.service'
+import web3 from 'web3'
+import accountRouter from './routes/accounts'
+import express from 'express'
+const app = express()
+const port = process.env.port || 3100
 
-const app = express();
-const bodyParser = require('body-parser');
-const web3service =require('./services/web3.service.js');
-const Web3 = require('web3');
-const accounts = require('./routes/accounts');
+app.use(bodyParser.json())
 
-const port = process.env.port || 3100;
+app.use('/api/accounts', accountRouter)
 
-app.use(bodyParser.json());
-
-
-app.use('/api/accounts',accounts);
-
-app.get('/', (req, res) =>{
- res.send('Service is running');
+app.get('/', (req, res) => {
+    res.send('Service is running')
 })
 
 app.listen(port, () => {
- console.log('started on port: ' + port );
- web3service.init();
-});
-
-// Start mist: mist --rpc ~/eth/priv/data/geth.ipc
-// Don't forget to start ethereum with script (./START..)
+    console.log(`Started on port: ${port}`)
+    initWebService()
+})
