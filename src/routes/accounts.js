@@ -1,17 +1,15 @@
-const express = require('express');
-const router = express.Router();
-const web3service = require('../services/web3.service.js');
-const bodyParser = require('body-parser');
- 
+import { getAccounts } from '../services/web3.service'
+import bodyParser from 'body-parser'
+import express from 'express'
+const router = express.Router()
+
 router.get('/', function(req, res) {
-    // do something
-   web3service.getAccounts().then(result => {
-    res.send(result)
-  })
-  .catch(err => {
-    console.log(err)
-    res.status(500).send(err)
-   })
-});
- 
-module.exports = router;
+  getAccounts().then(result => {
+      res.send(result)
+  }).catch(err => {
+      console.log(err)
+      res.status(500).send(err)
+  }) 
+})
+
+export default router
